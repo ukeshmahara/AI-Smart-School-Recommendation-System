@@ -4,9 +4,11 @@ import { useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import { User, Mail, Phone, Lock, Eye, EyeOff } from "lucide-react";
 import { registerSchema, RegisterFormData } from "./schema";
+import { handleRegisterUser } from "@/lib/actions/auth-action";
 import GoogleIcon from "@/app/_components/GoogleIcon";
 
 const fieldBase =
@@ -20,6 +22,7 @@ export default function RegisterForm() {
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
     const [isPending, startTransition] = useTransition();
+    const router = useRouter();
 
     const {
         register,
@@ -29,11 +32,17 @@ export default function RegisterForm() {
 
     const onSubmit = (data: RegisterFormData) => {
         startTransition(async () => {
-            // TODO (later sprint, backend wiring): call handleRegisterUser(data)
-            // from lib/actions/auth-action.ts instead of this demo delay.
-            await new Promise((resolve) => setTimeout(resolve, 700));
-            console.log("Register form data:", data);
-            toast.success("Account created (demo - backend not connected yet)");
+            // confirmPassword is only for client-side validation - don't send it to the backend
+            const { confirmPassword, ...payload } = data;
+            const result = await handleRegisterUser(payload);
+
+            if (!result.success) {
+                toast.error(result.message);
+                return;
+            }
+
+            toast.success(result.message || "Account created successfully");
+            router.push("/login");
         });
     };
 
