@@ -1,6 +1,6 @@
 import { UserService } from "../services/user.service";
 import { z } from "zod";
-import { CreateUserDTO, LoginUserDTO } from "../dtos/user.dto";
+import { CreateUserDTO, LoginUserDTO, UpdateUserDTO } from "../dtos/user.dto";
 import { ApiResponseHelper } from "../utils/apihelper.util";
 import { Request, Response } from "express";
 
@@ -35,5 +35,19 @@ export class UserController {
 
     async whoami(req: Request, res: Response) {
         return ApiResponseHelper.success(res, req.user, "User details fetched successfully");
+    }
+
+    async updateUser(req: Request, res: Response) {
+        try {
+            const parsedData = UpdateUserDTO.safeParse(req.body);
+            if (!parsedData.success) {
+                return ApiResponseHelper.error(res, z.prettifyError(parsedData.error), 400);
+            }
+            const userId = (req.user as any)._id;
+            const updatedUser = await userService.updateUser(userId, parsedData.data, req.file);
+            return ApiResponseHelper.success(res, updatedUser, "Profile updated successfully");
+        } catch (error: Error | any) {
+            return ApiResponseHelper.error(res, error.message || "Internal Server Error", error.status || 500);
+        }
     }
 }
