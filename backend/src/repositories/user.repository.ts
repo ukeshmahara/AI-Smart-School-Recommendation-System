@@ -10,4 +10,7 @@ export class UserMongoRepository {
     async createUser(user: Partial<IUser>): Promise<IUser> {
         return UserModel.create(user);
     }
+    async updateUser(id: string, updateData: Partial<IUser>): Promise<IUser | null> {
+        return UserModel.findByIdAndUpdate(id, updateData, { new: true });
+    }
 }
