@@ -27,3 +27,8 @@ export const whoamiApi = async () => {
     const response = await axiosInstance.get(API.AUTH.WHOAMI);
     return response.data;
 };
+
+export const updateUserApi = async (formData: FormData) => {
+    const response = await axiosInstance.patch(API.AUTH.UPDATE, formData);
+    return response.data;
+};
