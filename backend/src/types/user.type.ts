@@ -5,6 +5,7 @@ export const UserSchema = z.object({
     email: z.email("Invalid email address"),
     phone: z.string().min(7, "Invalid phone number"),
     password: z.string().min(6, "Password must be at least 6 characters long"),
+    profileImage: z.string().optional(),
     role: z.enum(["admin", "student"]).default("student"),
 });
 
