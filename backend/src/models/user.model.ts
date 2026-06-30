@@ -13,6 +13,7 @@ const UserMongoSchema: Schema = new Schema<IUser>(
         email: { type: String, required: true, unique: true },
         phone: { type: String, required: true },
         password: { type: String, required: true },
+        profileImage: { type: String },
         role: { type: String, enum: ["admin", "student"], default: "student" },
     },
     { timestamps: true }
