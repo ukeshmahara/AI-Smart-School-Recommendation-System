@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { User } from "lucide-react";
+import { User, ShieldCheck } from "lucide-react";
 import { useAuth } from "@/lib/contexts/AuthContext";
 import Logo from "@/app/_components/Logo";
 import LogoutButton from "./LogoutButton";
@@ -18,6 +18,7 @@ const tabs = [
 export default function Navbar() {
     const pathname = usePathname();
     const { user } = useAuth();
+    const isAdmin = user?.role === "admin";
 
     return (
         <header className="border-b border-gray-100 bg-white">
@@ -43,6 +44,15 @@ export default function Navbar() {
                                 </Link>
                             );
                         })}
+                        {isAdmin && (
+                            <Link
+                                href="/admin/users"
+                                className="flex items-center gap-1.5 rounded-md px-3 py-1.5 text-sm font-medium text-purple-700 transition-colors hover:bg-purple-50"
+                            >
+                                <ShieldCheck className="h-4 w-4" />
+                                Admin Panel
+                            </Link>
+                        )}
                     </nav>
                 </div>
 
@@ -86,6 +96,15 @@ export default function Navbar() {
                         </Link>
                     );
                 })}
+                {isAdmin && (
+                    <Link
+                        href="/admin/users"
+                        className="flex items-center gap-1.5 rounded-md px-3 py-1.5 text-sm font-medium text-purple-700"
+                    >
+                        <ShieldCheck className="h-4 w-4" />
+                        Admin
+                    </Link>
+                )}
             </nav>
         </header>
     );
