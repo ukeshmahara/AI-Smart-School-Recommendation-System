@@ -4,6 +4,7 @@ export interface PaginationMeta {
     page: number;
     limit: number;
     total: number;
+    totalPages: number;
 }
 
 export interface ApiResponse<T> {
@@ -24,12 +25,7 @@ export class ApiResponseHelper {
     ): Response {
         return res.status(status).json({ status, success: true, message, data, meta });
     }
-    static error(
-        res: Response,
-        message: string = "Error",
-        status: number = 500,
-        data?: null
-    ): Response {
+    static error(res: Response, message: string = "Error", status: number = 500, data?: null): Response {
         return res.status(status).json({ status, success: false, message, data });
     }
 }
