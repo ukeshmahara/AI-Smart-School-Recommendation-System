@@ -5,4 +5,7 @@ export const API = {
         WHOAMI: "/api/v1/auth/whoami",
         UPDATE: "/api/v1/auth/update",
     },
+    ADMIN: {
+        USERS: "/api/v1/admin/users",
+    },
 };
