@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { getUserData } from "@/lib/cookies";
 import { handleGetCategoryCounts, handleGetSchools } from "@/lib/actions/school-action";
 import { School, MapPin, ArrowRight, Globe, Landmark, Building2, Wallet, Sparkles, Brain } from "lucide-react";
@@ -50,13 +51,17 @@ export default async function DashboardOverviewPage() {
                 <p className="mb-3 text-sm font-semibold text-gray-900">Browse by category</p>
                 <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
                     {CATEGORY_META.map((cat) => (
-                        <div key={cat.key} className="rounded-xl border border-gray-100 bg-white p-4">
+                        <Link
+                            key={cat.key}
+                            href={`/dashboard/schools?category=${cat.key}`}
+                            className="rounded-xl border border-gray-100 bg-white p-4 transition-colors hover:border-blue-200 hover:bg-blue-50/30"
+                        >
                             <span className={`flex h-11 w-11 items-center justify-center rounded-lg ${cat.bg}`}>
                                 <cat.icon className={`h-5 w-5 ${cat.color}`} />
                             </span>
                             <p className="mt-3 text-xl font-bold text-gray-900">{counts?.[cat.key] ?? 0}</p>
                             <p className="text-xs text-gray-500">{cat.label} schools</p>
-                        </div>
+                        </Link>
                     ))}
                 </div>
             </div>
@@ -64,7 +69,9 @@ export default async function DashboardOverviewPage() {
             <div className="mt-6 rounded-xl border border-gray-100 bg-white p-6">
                 <div className="flex items-center justify-between">
                     <h2 className="text-lg font-bold text-gray-900">Recently added schools</h2>
-                    <ArrowRight className="h-4 w-4 text-gray-400" />
+                    <Link href="/dashboard/schools" className="text-gray-400 hover:text-blue-700">
+                        <ArrowRight className="h-4 w-4" />
+                    </Link>
                 </div>
                 <div className="mt-4 space-y-3">
                     {schools.length === 0 ? (
@@ -73,9 +80,10 @@ export default async function DashboardOverviewPage() {
                         </p>
                     ) : (
                         schools.map((school: any) => (
-                            <div
+                            <Link
                                 key={school._id}
-                                className="flex items-center justify-between rounded-lg bg-gray-50 px-4 py-3"
+                                href="/dashboard/schools"
+                                className="flex items-center justify-between rounded-lg bg-gray-50 px-4 py-3 transition-colors hover:bg-blue-50/50"
                             >
                                 <div className="flex items-center gap-3">
                                     <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-blue-50">
@@ -91,7 +99,7 @@ export default async function DashboardOverviewPage() {
                                 <span className="rounded-full bg-blue-50 px-3 py-1 text-xs font-semibold text-blue-700">
                                     Rs {school.fees.toLocaleString()}
                                 </span>
-                            </div>
+                            </Link>
                         ))
                     )}
                 </div>
