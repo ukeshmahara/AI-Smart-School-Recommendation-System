@@ -7,6 +7,11 @@ export const CreateSchoolDTO = SchoolSchema.pick({
     category: true,
     streamsOffered: true,
     fees: true,
+    description: true,
+    facilities: true,
+    contactPhone: true,
+    contactEmail: true,
+    contactWebsite: true,
 });
 export type CreateSchoolDTO = z.infer<typeof CreateSchoolDTO>;
 
