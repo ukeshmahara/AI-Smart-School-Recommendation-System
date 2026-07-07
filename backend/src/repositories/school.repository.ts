@@ -1,4 +1,5 @@
 import { SchoolModel, ISchool } from "../models/school.model";
+import { BUDGET_FRIENDLY_THRESHOLD } from "../configs/constant";
 
 export class SchoolMongoRepository {
     async findAll(page: number, limit: number, search: string, category: string, stream: string): Promise<ISchool[]> {
@@ -25,17 +26,18 @@ export class SchoolMongoRepository {
         return SchoolModel.findByIdAndDelete(id);
     }
     async countByCategory(): Promise<Record<string, number>> {
-        const results = await SchoolModel.aggregate([
-            { $group: { _id: "$category", count: { $sum: 1 } } },
+        const [results, budgetFriendlyCount] = await Promise.all([
+            SchoolModel.aggregate([{ $group: { _id: "$category", count: { $sum: 1 } } }]),
+            SchoolModel.countDocuments({ fees: { $lte: BUDGET_FRIENDLY_THRESHOLD } }),
         ]);
         const counts: Record<string, number> = {
             international: 0,
             public: 0,
             private: 0,
-            budget_friendly: 0,
+            budget_friendly: budgetFriendlyCount,
         };
         results.forEach((r) => {
-            counts[r._id] = r.count;
+            if (counts[r._id] !== undefined) counts[r._id] = r.count;
         });
         return counts;
     }
@@ -45,11 +47,13 @@ export class SchoolMongoRepository {
             const regex = new RegExp(search, "i");
             query.$or = [{ name: regex }, { location: regex }];
         }
-        if (category) {
+        if (category === "budget_friendly") {
+            query.fees = { $lte: BUDGET_FRIENDLY_THRESHOLD };
+        } else if (category) {
             query.category = category;
         }
         if (stream) {
-            query.streamsOffered = stream; // matches if the array contains this stream
+            query.streamsOffered = stream;
         }
         return query;
     }
