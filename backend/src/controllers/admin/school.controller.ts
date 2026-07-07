@@ -6,10 +6,20 @@ import { ApiResponseHelper } from "../../utils/apihelper.util";
 
 const adminSchoolService = new AdminSchoolService();
 
+function normalizeArrayFields(body: Record<string, any>) {
+    ["streamsOffered", "facilities"].forEach((field) => {
+        if (body[field] && !Array.isArray(body[field])) {
+            body[field] = [body[field]];
+        }
+    });
+    return body;
+}
+
 export class AdminSchoolController {
     async createSchool(req: Request, res: Response) {
         try {
-            const parsed = CreateSchoolDTO.safeParse(req.body);
+            const body = normalizeArrayFields(req.body);
+            const parsed = CreateSchoolDTO.safeParse(body);
             if (!parsed.success) {
                 return ApiResponseHelper.error(res, z.prettifyError(parsed.error), 400);
             }
@@ -22,7 +32,8 @@ export class AdminSchoolController {
 
     async updateSchool(req: Request, res: Response) {
         try {
-            const parsed = UpdateSchoolDTO.safeParse(req.body);
+            const body = normalizeArrayFields(req.body);
+            const parsed = UpdateSchoolDTO.safeParse(body);
             if (!parsed.success) {
                 return ApiResponseHelper.error(res, z.prettifyError(parsed.error), 400);
             }
