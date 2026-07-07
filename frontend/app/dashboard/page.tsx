@@ -82,7 +82,7 @@ export default async function DashboardOverviewPage() {
                         schools.map((school: any) => (
                             <Link
                                 key={school._id}
-                                href="/dashboard/schools"
+                                href={`/dashboard/schools/${school._id}`}
                                 className="flex items-center justify-between rounded-lg bg-gray-50 px-4 py-3 transition-colors hover:bg-blue-50/50"
                             >
                                 <div className="flex items-center gap-3">
