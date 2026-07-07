@@ -2,12 +2,12 @@
 
 import { Pencil, Trash2, School as SchoolIcon } from "lucide-react";
 import { AdminSchool } from "./SchoolManagementPanel";
-import { CATEGORY_OPTIONS, STREAM_OPTIONS } from "./schema";
+import { CATEGORY_FILTER_OPTIONS, STREAM_OPTIONS } from "./schema";
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:8089";
 
 function categoryLabel(value: string) {
-    return CATEGORY_OPTIONS.find((c) => c.value === value)?.label || value;
+    return CATEGORY_FILTER_OPTIONS.find((c) => c.value === value)?.label || value;
 }
 function streamLabel(value: string) {
     return STREAM_OPTIONS.find((s) => s.value === value)?.label || value;
@@ -70,6 +70,11 @@ export default function SchoolTable({ schools, onEdit, onDelete }: Props) {
                                 <span className="rounded-full bg-blue-50 px-2.5 py-1 text-xs font-semibold text-blue-700">
                                     {categoryLabel(school.category)}
                                 </span>
+                                {school.fees <= 50000 && (
+                                    <span className="ml-1 rounded-full bg-amber-50 px-2.5 py-1 text-xs font-semibold text-amber-700">
+                                        Budget-Friendly
+                                    </span>
+                                )}
                             </td>
                             <td className="px-4 py-3">
                                 <div className="flex flex-wrap gap-1">
