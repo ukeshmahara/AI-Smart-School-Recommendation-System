@@ -13,7 +13,7 @@ const SchoolMongoSchema: Schema = new Schema<ISchool>(
         location: { type: String, required: true },
         category: {
             type: String,
-            enum: ["international", "public", "private", "budget_friendly"],
+            enum: ["international", "public", "private"],
             required: true,
         },
         streamsOffered: {
@@ -22,6 +22,11 @@ const SchoolMongoSchema: Schema = new Schema<ISchool>(
             required: true,
         },
         fees: { type: Number, required: true },
+        description: { type: String },
+        facilities: { type: [String], default: [] },
+        contactPhone: { type: String },
+        contactEmail: { type: String },
+        contactWebsite: { type: String },
         image: { type: String },
     },
     { timestamps: true }
