@@ -17,9 +17,14 @@ export interface AdminSchool {
     _id: string;
     name: string;
     location: string;
-    category: "international" | "public" | "private" | "budget_friendly";
+    category: "international" | "public" | "private";
     streamsOffered: ("science" | "management" | "humanities")[];
     fees: number;
+    description?: string;
+    facilities?: string[];
+    contactPhone?: string;
+    contactEmail?: string;
+    contactWebsite?: string;
     image?: string;
     createdAt: string;
 }
