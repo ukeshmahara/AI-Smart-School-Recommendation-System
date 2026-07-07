@@ -11,6 +11,7 @@ const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:8
 
 const tabs = [
     { href: "/dashboard", label: "Overview" },
+    { href: "/dashboard/schools", label: "Schools" },
     { href: "/dashboard/profile", label: "Profile" },
     { href: "/dashboard/password", label: "Password" },
 ];
