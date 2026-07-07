@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { School as SchoolIcon, MapPin } from "lucide-react";
 import { categoryLabel, streamLabel } from "./constants";
 
@@ -27,7 +28,11 @@ export default function SchoolGrid({ schools }: { schools: School[] }) {
     return (
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {schools.map((school) => (
-                <div key={school._id} className="rounded-xl border border-gray-100 bg-white p-4">
+                <Link
+                    key={school._id}
+                    href={`/dashboard/schools/${school._id}`}
+                    className="rounded-xl border border-gray-100 bg-white p-4 transition-colors hover:border-blue-200"
+                >
                     <div className="mb-3 h-32 w-full overflow-hidden rounded-lg bg-gray-100">
                         {school.image ? (
                             // eslint-disable-next-line @next/next/no-img-element
@@ -62,7 +67,7 @@ export default function SchoolGrid({ schools }: { schools: School[] }) {
                     <p className="mt-3 text-sm font-semibold text-gray-900">
                         Rs {school.fees.toLocaleString()} <span className="font-normal text-gray-400">/ year</span>
                     </p>
-                </div>
+                </Link>
             ))}
         </div>
     );
