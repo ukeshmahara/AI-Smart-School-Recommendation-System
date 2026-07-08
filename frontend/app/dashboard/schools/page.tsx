@@ -1,4 +1,5 @@
 import { handleGetSchools } from "@/lib/actions/school-action";
+import { handleGetFavorites } from "@/lib/actions/favorite-action";
 import SchoolFilters from "./_components/SchoolFilters";
 import SchoolGrid from "./_components/SchoolGrid";
 import Pagination from "./_components/Pagination";
@@ -15,7 +16,12 @@ export default async function BrowseSchoolsPage({ searchParams }: PageProps) {
     const category = params.category || "";
     const stream = params.stream || "";
 
-    const result = await handleGetSchools(page, limit, search, category, stream);
+    const [result, favoritesResult] = await Promise.all([
+        handleGetSchools(page, limit, search, category, stream),
+        handleGetFavorites(),
+    ]);
+
+    const favoritedIds = new Set(favoritesResult.data.map((s: any) => s._id));
 
     return (
         <main className="mx-auto max-w-6xl px-6 py-8">
@@ -29,7 +35,7 @@ export default async function BrowseSchoolsPage({ searchParams }: PageProps) {
                         Couldn&apos;t load schools. Please refresh the page or try again.
                     </div>
                 ) : (
-                    <SchoolGrid schools={result.data} />
+                    <SchoolGrid schools={result.data} favoritedIds={favoritedIds} />
                 )}
 
                 <Pagination meta={result.meta} />

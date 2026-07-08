@@ -1,7 +1,9 @@
 import Link from "next/link";
 import { ArrowLeft, MapPin, Phone, Mail, Globe, School as SchoolIcon } from "lucide-react";
 import { handleGetSchoolById } from "@/lib/actions/school-action";
+import { handleGetFavorites } from "@/lib/actions/favorite-action";
 import { categoryLabel, streamLabel } from "../_components/constants";
+import FavoriteButton from "../_components/FavoriteButton";
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:8089";
 
@@ -11,7 +13,8 @@ interface PageProps {
 
 export default async function SchoolDetailPage({ params }: PageProps) {
     const { id } = await params;
-    const result = await handleGetSchoolById(id);
+
+    const [result, favoritesResult] = await Promise.all([handleGetSchoolById(id), handleGetFavorites()]);
 
     if (!result.success || !result.data) {
         return (
@@ -26,6 +29,7 @@ export default async function SchoolDetailPage({ params }: PageProps) {
     }
 
     const school = result.data;
+    const isFavorited = favoritesResult.data.some((s: any) => s._id === school._id);
 
     return (
         <main className="mx-auto max-w-4xl px-6 py-8">
@@ -37,7 +41,7 @@ export default async function SchoolDetailPage({ params }: PageProps) {
                 Back to schools
             </Link>
 
-            <div className="mb-6 h-56 w-full overflow-hidden rounded-2xl bg-gray-100">
+            <div className="relative mb-6 h-56 w-full overflow-hidden rounded-2xl bg-gray-100">
                 {school.image ? (
                     // eslint-disable-next-line @next/next/no-img-element
                     <img
@@ -50,6 +54,9 @@ export default async function SchoolDetailPage({ params }: PageProps) {
                         <SchoolIcon className="h-12 w-12" />
                     </div>
                 )}
+                <div className="absolute right-4 top-4">
+                    <FavoriteButton schoolId={school._id} initialFavorited={isFavorited} />
+                </div>
             </div>
 
             <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-start">

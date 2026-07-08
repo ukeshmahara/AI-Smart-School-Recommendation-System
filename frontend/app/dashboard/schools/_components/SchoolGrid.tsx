@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { School as SchoolIcon, MapPin } from "lucide-react";
 import { categoryLabel, streamLabel } from "./constants";
+import FavoriteButton from "./FavoriteButton";
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:8089";
 
@@ -14,7 +15,12 @@ interface School {
     image?: string;
 }
 
-export default function SchoolGrid({ schools }: { schools: School[] }) {
+interface Props {
+    schools: School[];
+    favoritedIds?: Set<string>;
+}
+
+export default function SchoolGrid({ schools, favoritedIds = new Set() }: Props) {
     if (schools.length === 0) {
         return (
             <div className="flex flex-col items-center justify-center gap-2 rounded-xl border border-gray-100 bg-white py-16 text-center">
@@ -31,8 +37,15 @@ export default function SchoolGrid({ schools }: { schools: School[] }) {
                 <Link
                     key={school._id}
                     href={`/dashboard/schools/${school._id}`}
-                    className="rounded-xl border border-gray-100 bg-white p-4 transition-colors hover:border-blue-200"
+                    className="relative rounded-xl border border-gray-100 bg-white p-4 transition-colors hover:border-blue-200"
                 >
+                    <div className="absolute right-6 top-6 z-10">
+                        <FavoriteButton
+                            schoolId={school._id}
+                            initialFavorited={favoritedIds.has(school._id)}
+                            size="sm"
+                        />
+                    </div>
                     <div className="mb-3 h-32 w-full overflow-hidden rounded-lg bg-gray-100">
                         {school.image ? (
                             // eslint-disable-next-line @next/next/no-img-element
@@ -47,7 +60,7 @@ export default function SchoolGrid({ schools }: { schools: School[] }) {
                             </div>
                         )}
                     </div>
-                    <p className="font-semibold text-gray-900">{school.name}</p>
+                    <p className="pr-8 font-semibold text-gray-900">{school.name}</p>
                     <p className="mt-1 flex items-center gap-1 text-xs text-gray-500">
                         <MapPin className="h-3 w-3" /> {school.location}
                     </p>
