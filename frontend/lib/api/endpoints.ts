@@ -11,4 +11,5 @@ export const API = {
     },
     SCHOOLS: "/api/v1/schools",
     SCHOOL_CATEGORY_COUNTS: "/api/v1/schools/category-counts",
+    FAVORITES: "/api/v1/favorites",
 };
