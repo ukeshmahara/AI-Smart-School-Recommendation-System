@@ -2,6 +2,7 @@ import Link from "next/link";
 import { School as SchoolIcon, MapPin } from "lucide-react";
 import { categoryLabel, streamLabel } from "./constants";
 import FavoriteButton from "./FavoriteButton";
+import CompareCheckbox from "./CompareCheckbox";
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:8089";
 
@@ -34,53 +35,54 @@ export default function SchoolGrid({ schools, favoritedIds = new Set() }: Props)
     return (
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {schools.map((school) => (
-                <Link
-                    key={school._id}
-                    href={`/dashboard/schools/${school._id}`}
-                    className="relative rounded-xl border border-gray-100 bg-white p-4 transition-colors hover:border-blue-200"
-                >
-                    <div className="absolute right-6 top-6 z-10">
-                        <FavoriteButton
-                            schoolId={school._id}
-                            initialFavorited={favoritedIds.has(school._id)}
-                            size="sm"
-                        />
-                    </div>
-                    <div className="mb-3 h-32 w-full overflow-hidden rounded-lg bg-gray-100">
-                        {school.image ? (
-                            // eslint-disable-next-line @next/next/no-img-element
-                            <img
-                                src={`${API_BASE_URL}${school.image}`}
-                                alt={school.name}
-                                className="h-full w-full object-cover"
+                <div key={school._id} className="relative rounded-xl border border-gray-100 bg-white p-4">
+                    <Link href={`/dashboard/schools/${school._id}`} className="block transition-colors">
+                        <div className="absolute right-6 top-6 z-10">
+                            <FavoriteButton
+                                schoolId={school._id}
+                                initialFavorited={favoritedIds.has(school._id)}
+                                size="sm"
                             />
-                        ) : (
-                            <div className="flex h-full w-full items-center justify-center text-gray-300">
-                                <SchoolIcon className="h-8 w-8" />
-                            </div>
-                        )}
-                    </div>
-                    <p className="pr-8 font-semibold text-gray-900">{school.name}</p>
-                    <p className="mt-1 flex items-center gap-1 text-xs text-gray-500">
-                        <MapPin className="h-3 w-3" /> {school.location}
-                    </p>
-                    <div className="mt-3 flex flex-wrap gap-1.5">
-                        <span className="rounded-full bg-blue-50 px-2.5 py-1 text-xs font-semibold text-blue-700">
-                            {categoryLabel(school.category)}
-                        </span>
-                        {school.streamsOffered.map((s) => (
-                            <span
-                                key={s}
-                                className="rounded-full bg-purple-50 px-2 py-1 text-xs font-medium text-purple-700"
-                            >
-                                {streamLabel(s)}
+                        </div>
+                        <div className="mb-3 h-32 w-full overflow-hidden rounded-lg bg-gray-100">
+                            {school.image ? (
+                                // eslint-disable-next-line @next/next/no-img-element
+                                <img
+                                    src={`${API_BASE_URL}${school.image}`}
+                                    alt={school.name}
+                                    className="h-full w-full object-cover"
+                                />
+                            ) : (
+                                <div className="flex h-full w-full items-center justify-center text-gray-300">
+                                    <SchoolIcon className="h-8 w-8" />
+                                </div>
+                            )}
+                        </div>
+                        <p className="pr-8 font-semibold text-gray-900">{school.name}</p>
+                        <p className="mt-1 flex items-center gap-1 text-xs text-gray-500">
+                            <MapPin className="h-3 w-3" /> {school.location}
+                        </p>
+                        <div className="mt-3 flex flex-wrap gap-1.5">
+                            <span className="rounded-full bg-blue-50 px-2.5 py-1 text-xs font-semibold text-blue-700">
+                                {categoryLabel(school.category)}
                             </span>
-                        ))}
+                            {school.streamsOffered.map((s) => (
+                                <span
+                                    key={s}
+                                    className="rounded-full bg-purple-50 px-2 py-1 text-xs font-medium text-purple-700"
+                                >
+                                    {streamLabel(s)}
+                                </span>
+                            ))}
+                        </div>
+                        <p className="mt-3 text-sm font-semibold text-gray-900">
+                            Rs {school.fees.toLocaleString()} <span className="font-normal text-gray-400">/ year</span>
+                        </p>
+                    </Link>
+                    <div className="mt-3">
+                        <CompareCheckbox schoolId={school._id} />
                     </div>
-                    <p className="mt-3 text-sm font-semibold text-gray-900">
-                        Rs {school.fees.toLocaleString()} <span className="font-normal text-gray-400">/ year</span>
-                    </p>
-                </Link>
+                </div>
             ))}
         </div>
     );
