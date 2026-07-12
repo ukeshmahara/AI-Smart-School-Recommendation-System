@@ -8,6 +8,7 @@ export const API = {
     ADMIN: {
         USERS: "/api/v1/admin/users",
         SCHOOLS: "/api/v1/admin/schools",
+        ANALYTICS: "/api/v1/admin/analytics",
     },
     SCHOOLS: "/api/v1/schools",
     SCHOOL_CATEGORY_COUNTS: "/api/v1/schools/category-counts",
