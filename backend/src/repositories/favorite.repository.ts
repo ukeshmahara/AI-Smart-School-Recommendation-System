@@ -13,4 +13,12 @@ export class FavoriteMongoRepository {
     async findAllByUser(userId: string) {
         return FavoriteModel.find({ userId }).populate("schoolId").sort({ createdAt: -1 });
     }
+    async getTopFavoritedSchoolIds(limit: number): Promise<{ schoolId: string; count: number }[]> {
+        const results = await FavoriteModel.aggregate([
+            { $group: { _id: "$schoolId", count: { $sum: 1 } } },
+            { $sort: { count: -1 } },
+            { $limit: limit },
+        ]);
+        return results.map((r) => ({ schoolId: String(r._id), count: r.count }));
+    }
 }
