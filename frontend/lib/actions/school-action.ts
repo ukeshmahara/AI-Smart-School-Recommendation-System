@@ -2,9 +2,18 @@
 
 import { getSchoolsApi, getSchoolByIdApi, getCategoryCountsApi } from "../api/school";
 
-export async function handleGetSchools(page: number, limit: number, search: string, category: string, stream: string) {
+export async function handleGetSchools(
+    page: number,
+    limit: number,
+    search: string,
+    category: string,
+    stream: string,
+    minFee?: number,
+    maxFee?: number,
+    sort?: string
+) {
     try {
-        const response = await getSchoolsApi(page, limit, search, category, stream);
+        const response = await getSchoolsApi(page, limit, search, category, stream, minFee, maxFee, sort);
         return { success: true, data: response.data, meta: response.meta };
     } catch (error: any) {
         const message = error?.response?.data?.message || "Failed to load schools";

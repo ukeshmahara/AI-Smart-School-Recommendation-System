@@ -3,15 +3,26 @@
 import { useState, useEffect, useRef } from "react";
 import { useRouter, useSearchParams, usePathname } from "next/navigation";
 import { Search } from "lucide-react";
-import { CATEGORY_OPTIONS, STREAM_OPTIONS } from "./constants";
+import { CATEGORY_OPTIONS, STREAM_OPTIONS, SORT_OPTIONS, MIN_FEE, MAX_FEE } from "./constants";
+import FeeRangeSlider from "./FeeRangeSlider";
 
 interface Props {
     initialSearch: string;
     initialCategory: string;
     initialStream: string;
+    initialSort: string;
+    initialMinFee: number;
+    initialMaxFee: number;
 }
 
-export default function SchoolFilters({ initialSearch, initialCategory, initialStream }: Props) {
+export default function SchoolFilters({
+    initialSearch,
+    initialCategory,
+    initialStream,
+    initialSort,
+    initialMinFee,
+    initialMaxFee,
+}: Props) {
     const [search, setSearch] = useState(initialSearch);
     const router = useRouter();
     const pathname = usePathname();
@@ -38,42 +49,67 @@ export default function SchoolFilters({ initialSearch, initialCategory, initialS
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [search]);
 
+    const onFeeRangeCommitted = (min: number, max: number) => {
+        const params = new URLSearchParams(searchParams.toString());
+        if (min > MIN_FEE) params.set("minFee", String(min));
+        else params.delete("minFee");
+        if (max < MAX_FEE) params.set("maxFee", String(max));
+        else params.delete("maxFee");
+        params.set("page", "1");
+        router.push(`${pathname}?${params.toString()}`);
+    };
+
     return (
-        <div className="flex flex-col gap-3 sm:flex-row">
-            <div className="relative flex-1">
-                <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
-                <input
-                    type="text"
-                    placeholder="Search by name or location"
-                    value={search}
-                    onChange={(e) => setSearch(e.target.value)}
-                    className="w-full rounded-lg border border-gray-200 bg-white py-2.5 pl-10 pr-4 text-sm text-gray-900 placeholder:text-gray-400 outline-none transition-colors focus:border-blue-600"
-                />
+        <div className="space-y-3">
+            <div className="flex flex-col gap-3 sm:flex-row">
+                <div className="relative flex-1">
+                    <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
+                    <input
+                        type="text"
+                        placeholder="Search by name or location"
+                        value={search}
+                        onChange={(e) => setSearch(e.target.value)}
+                        className="w-full rounded-lg border border-gray-200 bg-white py-2.5 pl-10 pr-4 text-sm text-gray-900 placeholder:text-gray-400 outline-none transition-colors focus:border-blue-600"
+                    />
+                </div>
+                <select
+                    defaultValue={initialCategory}
+                    onChange={(e) => updateParam("category", e.target.value)}
+                    className="rounded-lg border border-gray-200 bg-white px-3 py-2.5 text-sm text-gray-700 outline-none focus:border-blue-600"
+                >
+                    <option value="">All categories</option>
+                    {CATEGORY_OPTIONS.map((opt) => (
+                        <option key={opt.value} value={opt.value}>
+                            {opt.label}
+                        </option>
+                    ))}
+                </select>
+                <select
+                    defaultValue={initialStream}
+                    onChange={(e) => updateParam("stream", e.target.value)}
+                    className="rounded-lg border border-gray-200 bg-white px-3 py-2.5 text-sm text-gray-700 outline-none focus:border-blue-600"
+                >
+                    <option value="">All streams</option>
+                    {STREAM_OPTIONS.map((opt) => (
+                        <option key={opt.value} value={opt.value}>
+                            {opt.label}
+                        </option>
+                    ))}
+                </select>
+                <select
+                    defaultValue={initialSort || "newest"}
+                    onChange={(e) => updateParam("sort", e.target.value === "newest" ? "" : e.target.value)}
+                    className="rounded-lg border border-gray-200 bg-white px-3 py-2.5 text-sm text-gray-700 outline-none focus:border-blue-600"
+                >
+                    {SORT_OPTIONS.map((opt) => (
+                        <option key={opt.value} value={opt.value}>
+                            {opt.label}
+                        </option>
+                    ))}
+                </select>
             </div>
-            <select
-                defaultValue={initialCategory}
-                onChange={(e) => updateParam("category", e.target.value)}
-                className="rounded-lg border border-gray-200 bg-white px-3 py-2.5 text-sm text-gray-700 outline-none focus:border-blue-600"
-            >
-                <option value="">All categories</option>
-                {CATEGORY_OPTIONS.map((opt) => (
-                    <option key={opt.value} value={opt.value}>
-                        {opt.label}
-                    </option>
-                ))}
-            </select>
-            <select
-                defaultValue={initialStream}
-                onChange={(e) => updateParam("stream", e.target.value)}
-                className="rounded-lg border border-gray-200 bg-white px-3 py-2.5 text-sm text-gray-700 outline-none focus:border-blue-600"
-            >
-                <option value="">All streams</option>
-                {STREAM_OPTIONS.map((opt) => (
-                    <option key={opt.value} value={opt.value}>
-                        {opt.label}
-                    </option>
-                ))}
-            </select>
+
+            <FeeRangeSlider initialMin={initialMinFee} initialMax={initialMaxFee} onChangeCommitted={onFeeRangeCommitted} />
         </div>
     );
 }

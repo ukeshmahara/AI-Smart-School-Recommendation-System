@@ -4,10 +4,19 @@ import { HttpException } from "../exceptions/http-exception";
 const schoolRepository = new SchoolMongoRepository();
 
 export class SchoolService {
-    async getSchools(page: number, limit: number, search: string, category: string, stream: string) {
+    async getSchools(
+        page: number,
+        limit: number,
+        search: string,
+        category: string,
+        stream: string,
+        minFee?: number,
+        maxFee?: number,
+        sort?: string
+    ) {
         const [schools, total] = await Promise.all([
-            schoolRepository.findAll(page, limit, search, category, stream),
-            schoolRepository.count(search, category, stream),
+            schoolRepository.findAll(page, limit, search, category, stream, minFee, maxFee, sort),
+            schoolRepository.count(search, category, stream, minFee, maxFee),
         ]);
         return {
             schools,
