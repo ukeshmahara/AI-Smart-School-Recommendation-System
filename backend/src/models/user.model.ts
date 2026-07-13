@@ -3,6 +3,8 @@ import { UserType } from "../types/user.type";
 
 export interface IUser extends UserType, Document {
     _id: mongoose.Types.ObjectId;
+    resetPasswordToken?: string;
+    resetPasswordExpires?: Date;
     createdAt: Date;
     updatedAt: Date;
 }
@@ -13,8 +15,10 @@ const UserMongoSchema: Schema = new Schema<IUser>(
         email: { type: String, required: true, unique: true },
         phone: { type: String, required: true },
         password: { type: String, required: true },
-        profileImage: { type: String },
         role: { type: String, enum: ["admin", "student"], default: "student" },
+        profileImage: { type: String },
+        resetPasswordToken: { type: String },
+        resetPasswordExpires: { type: Date },
     },
     { timestamps: true }
 );
