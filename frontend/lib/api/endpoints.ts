@@ -4,13 +4,17 @@ export const API = {
         LOGIN: "/api/v1/auth/login",
         WHOAMI: "/api/v1/auth/whoami",
         UPDATE: "/api/v1/auth/update",
+        FORGOT_PASSWORD: "/api/v1/auth/forgot-password",
+        RESET_PASSWORD: "/api/v1/auth/reset-password",
     },
     ADMIN: {
         USERS: "/api/v1/admin/users",
         SCHOOLS: "/api/v1/admin/schools",
         ANALYTICS: "/api/v1/admin/analytics",
+        NOTIFICATIONS: "/api/v1/admin/notifications",
     },
     SCHOOLS: "/api/v1/schools",
     SCHOOL_CATEGORY_COUNTS: "/api/v1/schools/category-counts",
     FAVORITES: "/api/v1/favorites",
+    NOTIFICATIONS: "/api/v1/notifications",
 };
