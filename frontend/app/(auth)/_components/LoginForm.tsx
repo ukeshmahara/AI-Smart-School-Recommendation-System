@@ -34,7 +34,7 @@ export default function LoginForm() {
             }
 
             toast.success(result.message || "Login successful");
-            await checkAuth(); // refresh AuthContext now that the cookie is set
+            await checkAuth();
             router.push("/dashboard");
         });
     };
@@ -88,13 +88,9 @@ export default function LoginForm() {
                 </div>
 
                 <div className="flex justify-end">
-                    <button
-                        type="button"
-                        onClick={() => toast.info("Password reset isn't implemented yet")}
-                        className="text-sm font-medium text-blue-700 hover:underline"
-                    >
+                    <Link href="/forgot-password" className="text-sm font-medium text-blue-700 hover:underline">
                         Forgot Password?
-                    </button>
+                    </Link>
                 </div>
 
                 <button
