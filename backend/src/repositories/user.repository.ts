@@ -7,6 +7,12 @@ export class UserMongoRepository {
     async getUserByEmail(email: string): Promise<IUser | null> {
         return UserModel.findOne({ email });
     }
+    async getUserByResetToken(hashedToken: string): Promise<IUser | null> {
+        return UserModel.findOne({
+            resetPasswordToken: hashedToken,
+            resetPasswordExpires: { $gt: new Date() },
+        });
+    }
     async createUser(user: Partial<IUser>): Promise<IUser> {
         return UserModel.create(user);
     }
