@@ -10,6 +10,8 @@ import schoolRoutes from "./routes/school.route";
 import adminSchoolRoutes from "./routes/admin/school.route";
 import favoriteRoutes from "./routes/favorite.route";
 import adminAnalyticsRoutes from "./routes/admin/analytics.route";
+import notificationRoutes from "./routes/notification.route";
+import adminNotificationRoutes from "./routes/admin/notification.route";
 
 const app: Application = express();
 
@@ -26,6 +28,8 @@ app.use("/api/v1/schools", schoolRoutes);
 app.use("/api/v1/admin/schools", adminSchoolRoutes);
 app.use("/api/v1/favorites", favoriteRoutes);
 app.use("/api/v1/admin/analytics", adminAnalyticsRoutes);
+app.use("/api/v1/notifications", notificationRoutes);
+app.use("/api/v1/admin/notifications", adminNotificationRoutes);
 
 app.use((req: Request, res: Response) => {
     return res.status(404).json({ message: "API not found" });
