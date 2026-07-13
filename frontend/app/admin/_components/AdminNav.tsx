@@ -7,6 +7,7 @@ const tabs = [
     { href: "/admin/users", label: "Users" },
     { href: "/admin/schools", label: "Schools" },
     { href: "/admin/analytics", label: "Analytics" },
+    { href: "/admin/announcements", label: "Announcements" },
 ];
 
 export default function AdminNav() {

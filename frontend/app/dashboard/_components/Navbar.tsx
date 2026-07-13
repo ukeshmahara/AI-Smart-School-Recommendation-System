@@ -6,6 +6,7 @@ import { User, ShieldCheck } from "lucide-react";
 import { useAuth } from "@/lib/contexts/AuthContext";
 import Logo from "@/app/_components/Logo";
 import LogoutButton from "./LogoutButton";
+import NotificationBell from "./NotificationBell";
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:8089";
 
@@ -59,6 +60,7 @@ export default function Navbar() {
                 </div>
 
                 <div className="flex items-center gap-4">
+                    <NotificationBell />
                     <div className="flex items-center gap-3">
                         <div className="h-9 w-9 shrink-0 overflow-hidden rounded-full bg-gray-100">
                             {user?.profileImage ? (
