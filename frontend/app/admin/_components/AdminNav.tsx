@@ -8,13 +8,14 @@ const tabs = [
     { href: "/admin/schools", label: "Schools" },
     { href: "/admin/analytics", label: "Analytics" },
     { href: "/admin/announcements", label: "Announcements" },
+    { href: "/admin/inquiries", label: "Inquiries" },
 ];
 
 export default function AdminNav() {
     const pathname = usePathname();
 
     return (
-        <nav className="flex items-center gap-1">
+        <nav className="flex flex-wrap items-center gap-1">
             {tabs.map((tab) => {
                 const isActive = pathname.startsWith(tab.href);
                 return (
