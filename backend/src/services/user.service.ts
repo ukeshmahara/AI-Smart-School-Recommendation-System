@@ -1,5 +1,5 @@
 import { UserMongoRepository } from "../repositories/user.repository";
-import { CreateUserDTO, LoginUserDTO } from "../dtos/user.dto";
+import { CreateUserDTO, LoginUserDTO, UpdateUserDTO } from "../dtos/user.dto";
 import { HttpException } from "../exceptions/http-exception";
 import bcryptjs from "bcryptjs";
 import jwt from "jsonwebtoken";
@@ -46,6 +46,41 @@ export class UserService {
 
         const { password, ...safeUser } = user.toObject();
         return { user: safeUser, token };
+    }
+
+    async updateUser(userId: string, updateData: UpdateUserDTO, file?: Express.Multer.File) {
+        const user = await userRepository.getUserById(userId);
+        if (!user) {
+            throw new HttpException(404, "User not found");
+        }
+
+        const fieldsToUpdate: Record<string, any> = {};
+
+        if (updateData.fullName) fieldsToUpdate.fullName = updateData.fullName;
+        if (updateData.phone) fieldsToUpdate.phone = updateData.phone;
+
+        if (updateData.newPassword) {
+            const isCurrentPasswordValid = await bcryptjs.compare(
+                updateData.currentPassword as string,
+                user.password
+            );
+            if (!isCurrentPasswordValid) {
+                throw new HttpException(400, "Current password is incorrect");
+            }
+            fieldsToUpdate.password = await bcryptjs.hash(updateData.newPassword, 10);
+        }
+
+        if (file) {
+            fieldsToUpdate.profileImage = `/uploads/${file.filename}`;
+        }
+
+        const updatedUser = await userRepository.updateUser(userId, fieldsToUpdate);
+        if (!updatedUser) {
+            throw new HttpException(404, "User not found");
+        }
+
+        const { password, ...safeUser } = updatedUser.toObject();
+        return safeUser;
     }
 
     async forgotPassword(email: string) {
