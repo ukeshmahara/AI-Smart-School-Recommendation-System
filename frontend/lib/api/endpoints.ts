@@ -12,9 +12,11 @@ export const API = {
         SCHOOLS: "/api/v1/admin/schools",
         ANALYTICS: "/api/v1/admin/analytics",
         NOTIFICATIONS: "/api/v1/admin/notifications",
+        INQUIRIES: "/api/v1/admin/inquiries",
     },
     SCHOOLS: "/api/v1/schools",
     SCHOOL_CATEGORY_COUNTS: "/api/v1/schools/category-counts",
     FAVORITES: "/api/v1/favorites",
     NOTIFICATIONS: "/api/v1/notifications",
+    INQUIRIES: "/api/v1/inquiries",
 };
