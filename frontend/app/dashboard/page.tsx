@@ -40,10 +40,13 @@ export default async function DashboardOverviewPage() {
                             Answer a few questions, {firstName}, and let AI find schools that fit.
                         </h1>
                     </div>
-                    <button className="flex shrink-0 items-center gap-2 rounded-lg bg-white px-5 py-2.5 text-sm font-semibold text-blue-700 transition-colors hover:bg-blue-50">
+                    <Link
+                        href="/dashboard/recommendations"
+                        className="flex shrink-0 items-center gap-2 rounded-lg bg-white px-5 py-2.5 text-sm font-semibold text-blue-700 transition-colors hover:bg-blue-50"
+                    >
                         <Brain className="h-4 w-4" />
                         Get AI Recommendations
-                    </button>
+                    </Link>
                 </div>
             </div>
 
