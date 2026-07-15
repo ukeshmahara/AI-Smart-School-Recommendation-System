@@ -19,4 +19,5 @@ export const API = {
     FAVORITES: "/api/v1/favorites",
     NOTIFICATIONS: "/api/v1/notifications",
     INQUIRIES: "/api/v1/inquiries",
+    RECOMMENDATIONS: "/api/v1/recommendations",
 };
