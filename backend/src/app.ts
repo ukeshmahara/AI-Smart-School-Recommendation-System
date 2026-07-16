@@ -15,6 +15,8 @@ import adminNotificationRoutes from "./routes/admin/notification.route";
 import inquiryRoutes from "./routes/inquiry.route";
 import adminInquiryRoutes from "./routes/admin/inquiry.route";
 import recommendationRoutes from "./routes/recommendation.route";
+import reviewRoutes from "./routes/review.route";
+import adminReviewRoutes from "./routes/admin/review.route";
 
 const app: Application = express();
 
@@ -36,6 +38,8 @@ app.use("/api/v1/admin/notifications", adminNotificationRoutes);
 app.use("/api/v1/inquiries", inquiryRoutes);
 app.use("/api/v1/admin/inquiries", adminInquiryRoutes);
 app.use("/api/v1/recommendations", recommendationRoutes);
+app.use("/api/v1/reviews", reviewRoutes);
+app.use("/api/v1/admin/reviews", adminReviewRoutes);
 
 app.use((req: Request, res: Response) => {
     return res.status(404).json({ message: "API not found" });
