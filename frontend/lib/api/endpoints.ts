@@ -13,6 +13,7 @@ export const API = {
         ANALYTICS: "/api/v1/admin/analytics",
         NOTIFICATIONS: "/api/v1/admin/notifications",
         INQUIRIES: "/api/v1/admin/inquiries",
+        REVIEWS: "/api/v1/admin/reviews",
     },
     SCHOOLS: "/api/v1/schools",
     SCHOOL_CATEGORY_COUNTS: "/api/v1/schools/category-counts",
@@ -20,4 +21,5 @@ export const API = {
     NOTIFICATIONS: "/api/v1/notifications",
     INQUIRIES: "/api/v1/inquiries",
     RECOMMENDATIONS: "/api/v1/recommendations",
+    REVIEWS: "/api/v1/reviews",
 };
