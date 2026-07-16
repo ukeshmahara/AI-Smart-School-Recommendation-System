@@ -6,6 +6,7 @@ import { handleGetCurrentUser } from "@/lib/actions/auth-action";
 import { categoryLabel, streamLabel } from "../_components/constants";
 import FavoriteButton from "../_components/FavoriteButton";
 import ContactSchoolButton from "./_components/ContactSchoolButton";
+import ReviewsSection from "./_components/ReviewsSection";
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:8089";
 
@@ -37,6 +38,7 @@ export default async function SchoolDetailPage({ params }: PageProps) {
     const school = result.data;
     const isFavorited = favoritesResult.data.some((s: any) => s._id === school._id);
     const studentName = userResult.data?.fullName || "";
+    const currentUserId = userResult.data?._id;
 
     return (
         <main className="mx-auto max-w-4xl px-6 py-8">
@@ -134,6 +136,8 @@ export default async function SchoolDetailPage({ params }: PageProps) {
                     </div>
                 </div>
             )}
+
+            <ReviewsSection schoolId={school._id} currentUserId={currentUserId} />
         </main>
     );
 }
