@@ -22,4 +22,5 @@ export const API = {
     INQUIRIES: "/api/v1/inquiries",
     RECOMMENDATIONS: "/api/v1/recommendations",
     REVIEWS: "/api/v1/reviews",
+    CHATBOT: "/api/v1/chatbot",
 };
