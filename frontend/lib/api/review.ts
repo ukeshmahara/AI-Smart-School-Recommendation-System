@@ -11,6 +11,11 @@ export const getSchoolReviewsApi = async (schoolId: string) => {
     return response.data;
 };
 
+export const getTopRatedSchoolsApi = async (limit: number) => {
+    const response = await axiosInstance.get(`${API.REVIEWS}/top-schools`, { params: { limit } });
+    return response.data;
+};
+
 export const updateReviewApi = async (id: string, rating: number, comment: string) => {
     const response = await axiosInstance.patch(`${API.REVIEWS}/${id}`, { rating, comment });
     return response.data;

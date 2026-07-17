@@ -1,6 +1,12 @@
 "use server";
 
-import { createReviewApi, getSchoolReviewsApi, updateReviewApi, deleteReviewApi } from "../api/review";
+import {
+    createReviewApi,
+    getSchoolReviewsApi,
+    getTopRatedSchoolsApi,
+    updateReviewApi,
+    deleteReviewApi,
+} from "../api/review";
 
 export async function handleCreateReview(schoolId: string, rating: number, comment: string) {
     try {
@@ -17,6 +23,15 @@ export async function handleGetSchoolReviews(schoolId: string) {
         return { success: true, data: response.data };
     } catch (error: any) {
         return { success: false, data: { reviews: [], summary: { average: 0, count: 0 } } };
+    }
+}
+
+export async function handleGetTopRatedSchools(limit: number) {
+    try {
+        const response = await getTopRatedSchoolsApi(limit);
+        return { success: true, data: response.data as any[] };
+    } catch (error: any) {
+        return { success: false, data: [] as any[] };
     }
 }
 
