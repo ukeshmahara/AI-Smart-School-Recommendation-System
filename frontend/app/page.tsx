@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { SlidersHorizontal, Scale, Heart, Globe, Landmark, Building2, Wallet } from "lucide-react";
-import Logo from "./_components/Logo";
+import PublicNav from "./_components/PublicNav";
 
 const CATEGORIES = [
     { key: "international", label: "International", icon: Globe, bg: "bg-blue-50", color: "text-blue-700" },
@@ -12,25 +12,7 @@ const CATEGORIES = [
 export default function Home() {
     return (
         <div className="min-h-screen bg-white">
-            <header className="border-b border-gray-100">
-                <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
-                    <Logo />
-                    <div className="flex gap-3">
-                        <Link
-                            href="/login"
-                            className="rounded-lg border border-gray-200 px-4 py-2 text-sm font-semibold text-gray-700 hover:bg-gray-50"
-                        >
-                            Log in
-                        </Link>
-                        <Link
-                            href="/register"
-                            className="rounded-lg bg-blue-700 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-800"
-                        >
-                            Sign up
-                        </Link>
-                    </div>
-                </div>
-            </header>
+            <PublicNav />
 
             <main className="mx-auto max-w-4xl px-6 py-16 text-center">
                 <span className="inline-block rounded-full bg-blue-50 px-3 py-1 text-xs font-semibold text-blue-700">
