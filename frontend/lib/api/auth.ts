@@ -32,3 +32,13 @@ export const updateUserApi = async (formData: FormData) => {
     const response = await axiosInstance.patch(API.AUTH.UPDATE, formData);
     return response.data;
 };
+
+export const forgotPasswordApi = async (email: string) => {
+    const response = await axiosInstance.post(API.AUTH.FORGOT_PASSWORD, { email });
+    return response.data;
+};
+
+export const resetPasswordApi = async (token: string, newPassword: string) => {
+    const response = await axiosInstance.post(`${API.AUTH.RESET_PASSWORD}/${token}`, { newPassword });
+    return response.data;
+};

@@ -1,9 +1,11 @@
 "use client";
 
 import { useState, useTransition } from "react";
+import { useRouter } from "next/navigation";
 import { Heart } from "lucide-react";
 import { toast } from "react-toastify";
 import { handleAddFavorite, handleRemoveFavorite } from "@/lib/actions/favorite-action";
+import { useAuth } from "@/lib/contexts/AuthContext";
 
 interface Props {
     schoolId: string;
@@ -14,10 +16,18 @@ interface Props {
 export default function FavoriteButton({ schoolId, initialFavorited, size = "md" }: Props) {
     const [isFavorited, setIsFavorited] = useState(initialFavorited);
     const [isPending, startTransition] = useTransition();
+    const { isAuthenticated } = useAuth();
+    const router = useRouter();
 
     const toggleFavorite = (e: React.MouseEvent) => {
         e.preventDefault();
         e.stopPropagation();
+
+        if (!isAuthenticated) {
+            toast.info("Log in to save schools to your favorites");
+            router.push("/login");
+            return;
+        }
 
         const nextState = !isFavorited;
         setIsFavorited(nextState); // optimistic update

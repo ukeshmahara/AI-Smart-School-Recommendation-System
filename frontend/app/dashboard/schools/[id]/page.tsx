@@ -2,8 +2,11 @@ import Link from "next/link";
 import { ArrowLeft, MapPin, Phone, Mail, Globe, School as SchoolIcon } from "lucide-react";
 import { handleGetSchoolById } from "@/lib/actions/school-action";
 import { handleGetFavorites } from "@/lib/actions/favorite-action";
+import { handleGetCurrentUser } from "@/lib/actions/auth-action";
 import { categoryLabel, streamLabel } from "../_components/constants";
 import FavoriteButton from "../_components/FavoriteButton";
+import ContactSchoolButton from "./_components/ContactSchoolButton";
+import ReviewsSection from "./_components/ReviewsSection";
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:8089";
 
@@ -14,7 +17,11 @@ interface PageProps {
 export default async function SchoolDetailPage({ params }: PageProps) {
     const { id } = await params;
 
-    const [result, favoritesResult] = await Promise.all([handleGetSchoolById(id), handleGetFavorites()]);
+    const [result, favoritesResult, userResult] = await Promise.all([
+        handleGetSchoolById(id),
+        handleGetFavorites(),
+        handleGetCurrentUser(),
+    ]);
 
     if (!result.success || !result.data) {
         return (
@@ -30,6 +37,8 @@ export default async function SchoolDetailPage({ params }: PageProps) {
 
     const school = result.data;
     const isFavorited = favoritesResult.data.some((s: any) => s._id === school._id);
+    const studentName = userResult.data?.fullName || "";
+    const currentUserId = userResult.data?._id;
 
     return (
         <main className="mx-auto max-w-4xl px-6 py-8">
@@ -76,9 +85,12 @@ export default async function SchoolDetailPage({ params }: PageProps) {
                         ))}
                     </div>
                 </div>
-                <div className="text-left sm:text-right">
-                    <p className="text-xs text-gray-400">Annual fees</p>
-                    <p className="text-xl font-bold text-gray-900">Rs {school.fees.toLocaleString()}</p>
+                <div className="flex flex-col items-start gap-3 sm:items-end">
+                    <div className="text-left sm:text-right">
+                        <p className="text-xs text-gray-400">Annual fees</p>
+                        <p className="text-xl font-bold text-gray-900">Rs {school.fees.toLocaleString()}</p>
+                    </div>
+                    <ContactSchoolButton schoolId={school._id} schoolName={school.name} studentName={studentName} />
                 </div>
             </div>
 
@@ -124,6 +136,8 @@ export default async function SchoolDetailPage({ params }: PageProps) {
                     </div>
                 </div>
             )}
+
+            <ReviewsSection schoolId={school._id} currentUserId={currentUserId} />
         </main>
     );
 }

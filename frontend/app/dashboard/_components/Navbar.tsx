@@ -6,6 +6,7 @@ import { User, ShieldCheck } from "lucide-react";
 import { useAuth } from "@/lib/contexts/AuthContext";
 import Logo from "@/app/_components/Logo";
 import LogoutButton from "./LogoutButton";
+import NotificationBell from "./NotificationBell";
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:8089";
 
@@ -13,6 +14,7 @@ const tabs = [
     { href: "/dashboard", label: "Overview" },
     { href: "/dashboard/schools", label: "Schools" },
     { href: "/dashboard/favorites", label: "Favorites" },
+    { href: "/dashboard/inquiries", label: "Inquiries" },
     { href: "/dashboard/profile", label: "Profile" },
     { href: "/dashboard/password", label: "Password" },
 ];
@@ -29,7 +31,7 @@ export default function Navbar() {
                     <Link href="/dashboard" className="scale-90">
                         <Logo />
                     </Link>
-                    <nav className="hidden items-center gap-1 sm:flex">
+                    <nav className="hidden items-center gap-1 lg:flex">
                         {tabs.map((tab) => {
                             const isActive = pathname === tab.href;
                             return (
@@ -59,6 +61,7 @@ export default function Navbar() {
                 </div>
 
                 <div className="flex items-center gap-4">
+                    <NotificationBell />
                     <div className="flex items-center gap-3">
                         <div className="h-9 w-9 shrink-0 overflow-hidden rounded-full bg-gray-100">
                             {user?.profileImage ? (
@@ -83,7 +86,7 @@ export default function Navbar() {
                 </div>
             </div>
 
-            <nav className="flex items-center gap-1 border-t border-gray-100 px-6 py-2 sm:hidden">
+            <nav className="flex flex-wrap items-center gap-1 border-t border-gray-100 px-6 py-2 lg:hidden">
                 {tabs.map((tab) => {
                     const isActive = pathname === tab.href;
                     return (

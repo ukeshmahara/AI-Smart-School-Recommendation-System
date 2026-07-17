@@ -1,6 +1,7 @@
 import { UserService } from "../services/user.service";
 import { z } from "zod";
 import { CreateUserDTO, LoginUserDTO, UpdateUserDTO } from "../dtos/user.dto";
+import { ForgotPasswordDTO, ResetPasswordDTO } from "../dtos/password-reset.dto";
 import { ApiResponseHelper } from "../utils/apihelper.util";
 import { Request, Response } from "express";
 
@@ -46,6 +47,36 @@ export class UserController {
             const userId = (req.user as any)._id;
             const updatedUser = await userService.updateUser(userId, parsedData.data, req.file);
             return ApiResponseHelper.success(res, updatedUser, "Profile updated successfully");
+        } catch (error: Error | any) {
+            return ApiResponseHelper.error(res, error.message || "Internal Server Error", error.status || 500);
+        }
+    }
+
+    async forgotPassword(req: Request, res: Response) {
+        try {
+            const parsed = ForgotPasswordDTO.safeParse(req.body);
+            if (!parsed.success) {
+                return ApiResponseHelper.error(res, z.prettifyError(parsed.error), 400);
+            }
+            await userService.forgotPassword(parsed.data.email);
+            return ApiResponseHelper.success(
+                res,
+                null,
+                "If that email is registered, a reset link has been sent"
+            );
+        } catch (error: Error | any) {
+            return ApiResponseHelper.error(res, error.message || "Internal Server Error", error.status || 500);
+        }
+    }
+
+    async resetPassword(req: Request, res: Response) {
+        try {
+            const parsed = ResetPasswordDTO.safeParse(req.body);
+            if (!parsed.success) {
+                return ApiResponseHelper.error(res, z.prettifyError(parsed.error), 400);
+            }
+            await userService.resetPassword(req.params.token, parsed.data.newPassword);
+            return ApiResponseHelper.success(res, null, "Password reset successfully");
         } catch (error: Error | any) {
             return ApiResponseHelper.error(res, error.message || "Internal Server Error", error.status || 500);
         }

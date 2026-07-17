@@ -5,6 +5,8 @@ import {
     loginUserApi,
     whoamiApi,
     updateUserApi,
+    forgotPasswordApi,
+    resetPasswordApi,
     RegisterPayload,
     LoginPayload,
 } from "../api/auth";
@@ -47,11 +49,31 @@ export async function handleGetCurrentUser() {
 export async function handleUpdateUser(formData: FormData) {
     try {
         const response = await updateUserApi(formData);
-        // keep the cookie in sync so dashboard/navbar reflect the change immediately
         await storeUserData(response.data);
         return { success: true, message: response.message as string, data: response.data };
     } catch (error: any) {
         const message = error?.response?.data?.message || "Something went wrong. Please try again.";
         return { success: false, message };
+    }
+}
+
+export async function handleForgotPassword(email: string) {
+    try {
+        const response = await forgotPasswordApi(email);
+        return { success: true, message: response.message as string };
+    } catch (error: any) {
+        return { success: false, message: error?.response?.data?.message || "Something went wrong. Please try again." };
+    }
+}
+
+export async function handleResetPassword(token: string, newPassword: string) {
+    try {
+        const response = await resetPasswordApi(token, newPassword);
+        return { success: true, message: response.message as string };
+    } catch (error: any) {
+        return {
+            success: false,
+            message: error?.response?.data?.message || "This reset link is invalid or has expired",
+        };
     }
 }

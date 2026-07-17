@@ -15,5 +15,7 @@ userRouter.patch(
     uploadMiddleware.single("profileImage"),
     userController.updateUser
 );
+userRouter.post("/forgot-password", userController.forgotPassword);
+userRouter.post("/reset-password/:token", userController.resetPassword);
 
 export default userRouter;
