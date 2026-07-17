@@ -8,6 +8,7 @@ const reviewController = new ReviewController();
 reviewRouter.use(authorizedMiddleware);
 
 reviewRouter.post("/", reviewController.createReview);
+reviewRouter.get("/top-schools", reviewController.getTopRatedSchools);
 reviewRouter.get("/school/:schoolId", reviewController.getSchoolReviews);
 reviewRouter.get("/my", reviewController.getMyReviews);
 reviewRouter.patch("/:id", reviewController.updateReview);

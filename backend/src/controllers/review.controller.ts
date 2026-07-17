@@ -40,6 +40,16 @@ export class ReviewController {
         }
     }
 
+    async getTopRatedSchools(req: Request, res: Response) {
+        try {
+            const limit = Math.max(Number(req.query.limit) || 3, 1);
+            const schools = await reviewService.getTopRatedSchools(limit);
+            return ApiResponseHelper.success(res, schools, "Top rated schools fetched successfully");
+        } catch (error: Error | any) {
+            return ApiResponseHelper.error(res, error.message || "Internal Server Error", error.status || 500);
+        }
+    }
+
     async updateReview(req: Request, res: Response) {
         try {
             const parsed = UpdateReviewDTO.safeParse(req.body);

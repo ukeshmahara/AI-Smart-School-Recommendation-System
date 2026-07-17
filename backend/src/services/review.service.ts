@@ -31,6 +31,20 @@ export class ReviewService {
         return reviewRepository.findByStudent(studentId);
     }
 
+    async getTopRatedSchools(limit: number) {
+        const topRatedIds = await reviewRepository.getTopRatedSchoolIds(limit);
+
+        const results = await Promise.all(
+            topRatedIds.map(async (item) => {
+                const school = await schoolRepository.getById(item.schoolId);
+                if (!school) return null;
+                return { school, average: item.average, count: item.count };
+            })
+        );
+
+        return results.filter(Boolean);
+    }
+
     async updateReview(id: string, studentId: string, data: UpdateReviewDTO) {
         const review = await reviewRepository.getById(id);
         if (!review) throw new HttpException(404, "Review not found");
