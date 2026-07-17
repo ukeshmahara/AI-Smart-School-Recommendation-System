@@ -35,7 +35,7 @@ export default function LoginForm() {
 
             toast.success(result.message || "Login successful");
             await checkAuth();
-            router.push("/dashboard");
+            router.push(result.data?.role === "admin" ? "/admin/analytics" : "/dashboard");
         });
     };
 
