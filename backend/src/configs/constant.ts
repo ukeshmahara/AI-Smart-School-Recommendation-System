@@ -11,3 +11,5 @@ export const FRONTEND_URL: string = process.env.FRONTEND_URL || "http://localhos
 export const GMAIL_USER: string = process.env.GMAIL_USER || "";
 export const GMAIL_APP_PASSWORD: string = process.env.GMAIL_APP_PASSWORD || "";
 export const GEMINI_API_KEY: string = process.env.GEMINI_API_KEY || "";
+export const MONGODB_TEST_URL: string =
+    process.env.MONGODB_TEST_URL || "mongodb://localhost:27017/school-recommendation-db-test";

@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { MONGODB_URL } from "../configs/constant";
+import { MONGODB_URL, MONGODB_TEST_URL } from "../configs/constant";
 
 export const connectToMongoDB = async () => {
     try {
@@ -9,4 +9,8 @@ export const connectToMongoDB = async () => {
         console.error("Error connecting to MongoDB:", error);
         throw error;
     }
+};
+
+export const connectToMongoDBTest = async () => {
+    await mongoose.connect(MONGODB_TEST_URL);
 };
