@@ -15,7 +15,7 @@ export default function PublicNav() {
     const pathname = usePathname();
 
     return (
-        <header className="border-b border-gray-100">
+        <header className="border-b border-blue-100 bg-gradient-to-r from-blue-50 to-blue-100">
             <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
                 <Link href="/">
                     <Logo />
@@ -28,7 +28,7 @@ export default function PublicNav() {
                                 key={link.href}
                                 href={link.href}
                                 className={`text-sm font-medium transition-colors ${
-                                    isActive ? "text-blue-700" : "text-gray-600 hover:text-gray-900"
+                                    isActive ? "text-blue-700" : "text-blue-900/70 hover:text-blue-900"
                                 }`}
                             >
                                 {link.label}
@@ -39,7 +39,7 @@ export default function PublicNav() {
                 <div className="flex gap-3">
                     <Link
                         href="/login"
-                        className="rounded-lg border border-gray-200 px-4 py-2 text-sm font-semibold text-gray-700 hover:bg-gray-50"
+                        className="rounded-lg border border-blue-200 bg-white px-4 py-2 text-sm font-semibold text-blue-900 hover:bg-blue-50"
                     >
                         Log in
                     </Link>
