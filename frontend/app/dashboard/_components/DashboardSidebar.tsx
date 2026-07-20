@@ -32,7 +32,7 @@ export default function DashboardSidebar() {
     const isAdmin = user?.role === "admin";
 
     return (
-        <aside className="flex h-screen w-64 shrink-0 flex-col border-r border-blue-100 bg-gradient-to-b from-blue-50 to-blue-100 px-3.5 py-5">
+        <aside className="sticky top-0 flex h-screen w-64 shrink-0 flex-col border-r border-blue-100 bg-gradient-to-b from-blue-50 to-blue-100 px-3.5 py-5">
             <div className="mb-5 flex items-center gap-2 px-1.5">
                 <Logo />
             </div>
