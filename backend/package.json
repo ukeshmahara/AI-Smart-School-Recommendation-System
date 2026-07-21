@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "tsx --watch index.ts",
     "start": "tsx index.ts",
-    "test": "jest --runInBand"
+    "test": "jest --runInBand",
+    "test:coverage": "jest --coverage --runInBand"
   },
   "keywords": [],
   "author": "",
