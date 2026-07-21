@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
-import { Star, Trash2, MessageSquare } from "lucide-react";
+import { Star, Trash2, MessageSquare, ChevronDown, ChevronUp } from "lucide-react";
 import { handleDeleteReview } from "@/lib/actions/admin/review-action";
 import DeleteReviewModal from "./DeleteReviewModal";
 
@@ -20,6 +20,7 @@ export default function ReviewTable({ reviews }: { reviews: Review[] }) {
     const router = useRouter();
     const [deletingId, setDeletingId] = useState<string | null>(null);
     const [isDeleting, setIsDeleting] = useState(false);
+    const [expandedId, setExpandedId] = useState<string | null>(null);
 
     const confirmDelete = async () => {
         if (!deletingId) return;
@@ -47,53 +48,71 @@ export default function ReviewTable({ reviews }: { reviews: Review[] }) {
 
     return (
         <>
-            <div className="overflow-x-auto rounded-xl border border-gray-100 bg-white">
-                <table className="w-full text-left text-sm">
-                    <thead>
-                        <tr className="border-b border-gray-100 text-xs uppercase tracking-wide text-gray-400">
-                            <th className="px-4 py-3 font-medium">Student</th>
-                            <th className="px-4 py-3 font-medium">School</th>
-                            <th className="px-4 py-3 font-medium">Rating</th>
-                            <th className="px-4 py-3 font-medium">Comment</th>
-                            <th className="px-4 py-3 font-medium text-right">Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {reviews.map((review) => (
-                            <tr key={review._id} className="border-b border-gray-50 last:border-0 hover:bg-gray-50">
-                                <td className="px-4 py-3">
-                                    <p className="font-medium text-gray-900">{review.studentId?.fullName || "Deleted user"}</p>
-                                    <p className="text-xs text-gray-400">{review.studentId?.email}</p>
-                                </td>
-                                <td className="px-4 py-3 text-gray-600">{review.schoolId?.name || "Deleted school"}</td>
-                                <td className="px-4 py-3">
-                                    <div className="flex items-center gap-0.5">
-                                        {[1, 2, 3, 4, 5].map((star) => (
-                                            <Star
-                                                key={star}
-                                                className={`h-3.5 w-3.5 ${
-                                                    star <= review.rating ? "fill-amber-400 text-amber-400" : "text-gray-300"
-                                                }`}
-                                            />
-                                        ))}
+            <div className="space-y-3">
+                {reviews.map((review) => {
+                    const isExpanded = expandedId === review._id;
+                    return (
+                        <div key={review._id} className="rounded-xl border border-gray-100 bg-white">
+                            <div
+                                onClick={() => setExpandedId(isExpanded ? null : review._id)}
+                                className="flex cursor-pointer items-start justify-between gap-3 p-4 hover:bg-gray-50"
+                            >
+                                <div className="min-w-0 flex-1">
+                                    <div className="flex flex-wrap items-center gap-2">
+                                        <p className="font-medium text-gray-900">
+                                            {review.studentId?.fullName || "Deleted user"}
+                                        </p>
+                                        <span className="text-xs text-gray-400">
+                                            &rarr; {review.schoolId?.name || "Deleted school"}
+                                        </span>
+                                        <div className="flex items-center gap-0.5">
+                                            {[1, 2, 3, 4, 5].map((star) => (
+                                                <Star
+                                                    key={star}
+                                                    className={`h-3 w-3 ${
+                                                        star <= review.rating
+                                                            ? "fill-amber-400 text-amber-400"
+                                                            : "text-gray-300"
+                                                    }`}
+                                                />
+                                            ))}
+                                        </div>
                                     </div>
-                                </td>
-                                <td className="max-w-[240px] px-4 py-3 text-gray-600">
-                                    <p className="truncate">{review.comment}</p>
-                                </td>
-                                <td className="px-4 py-3 text-right">
+                                    <p className="mt-1 truncate text-sm text-gray-600">{review.comment}</p>
+                                </div>
+                                <div className="flex shrink-0 items-center gap-2">
                                     <button
-                                        onClick={() => setDeletingId(review._id)}
+                                        onClick={(e) => {
+                                            e.stopPropagation();
+                                            setDeletingId(review._id);
+                                        }}
                                         aria-label="Delete review"
                                         className="rounded-md p-2 text-gray-400 hover:bg-red-50 hover:text-red-600"
                                     >
                                         <Trash2 className="h-4 w-4" />
                                     </button>
-                                </td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
+                                    {isExpanded ? (
+                                        <ChevronUp className="h-4 w-4 text-gray-400" />
+                                    ) : (
+                                        <ChevronDown className="h-4 w-4 text-gray-400" />
+                                    )}
+                                </div>
+                            </div>
+
+                            {isExpanded && (
+                                <div className="border-t border-gray-100 bg-gray-50 p-4">
+                                    <p className="mb-1 text-xs font-semibold uppercase tracking-wide text-gray-400">
+                                        Full comment
+                                    </p>
+                                    <p className="text-sm text-gray-700">{review.comment}</p>
+                                    <p className="mt-2 text-xs text-gray-400">
+                                        Posted {new Date(review.createdAt).toLocaleString()}
+                                    </p>
+                                </div>
+                            )}
+                        </div>
+                    );
+                })}
             </div>
 
             {deletingId && (
