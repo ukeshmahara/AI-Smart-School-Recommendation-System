@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { SlidersHorizontal, Scale, Heart, Globe, Landmark, Building2, Wallet } from "lucide-react";
 import PublicNav from "./_components/PublicNav";
 
@@ -14,29 +15,41 @@ export default function Home() {
         <div className="min-h-screen bg-white">
             <PublicNav />
 
-            <main className="mx-auto max-w-4xl px-6 py-16 text-center">
-                <span className="inline-block rounded-full bg-blue-50 px-3 py-1 text-xs font-semibold text-blue-700">
-                    For high school students
-                </span>
-                <h1 className="mx-auto mt-4 max-w-2xl text-3xl font-bold leading-tight text-gray-900 sm:text-4xl">
-                    Find the right high school, with confidence
-                </h1>
-                <p className="mx-auto mt-4 max-w-md text-gray-500">
-                    Search, compare, and shortlist schools by stream, fees, and location, all in one place.
-                </p>
-                <div className="mt-8 flex items-center justify-center gap-3">
-                    <Link
-                        href="/register"
-                        className="rounded-lg bg-blue-700 px-6 py-3 text-sm font-semibold text-white hover:bg-blue-800"
-                    >
-                        Get started
-                    </Link>
-                    <Link
-                        href="/register"
-                        className="rounded-lg border border-gray-200 px-6 py-3 text-sm font-semibold text-gray-700 hover:bg-gray-50"
-                    >
-                        Browse schools
-                    </Link>
+            <main className="relative overflow-hidden py-16">
+                <Image
+                    src="/background.png"
+                    alt=""
+                    fill
+                    priority
+                    className="object-cover"
+                />
+
+                <div className="relative z-10 mx-auto max-w-2xl px-6">
+                    <div className="rounded-2xl bg-white/95 px-8 py-12 text-center shadow-xl backdrop-blur-sm">
+                        <span className="inline-block rounded-full bg-blue-50 px-3 py-1 text-xs font-semibold text-blue-700">
+                            For high school students
+                        </span>
+                        <h1 className="mx-auto mt-4 max-w-2xl text-3xl font-bold leading-tight text-gray-900 sm:text-4xl">
+                            Find the right high school, with confidence
+                        </h1>
+                        <p className="mx-auto mt-4 max-w-md text-gray-500">
+                            Search, compare, and shortlist schools by stream, fees, and location, all in one place.
+                        </p>
+                        <div className="mt-8 flex items-center justify-center gap-3">
+                            <Link
+                                href="/register"
+                                className="rounded-lg bg-blue-700 px-6 py-3 text-sm font-semibold text-white hover:bg-blue-800"
+                            >
+                                Get started
+                            </Link>
+                            <Link
+                                href="/register"
+                                className="rounded-lg border border-gray-200 px-6 py-3 text-sm font-semibold text-gray-700 hover:bg-gray-50"
+                            >
+                                Browse schools
+                            </Link>
+                        </div>
+                    </div>
                 </div>
             </main>
 

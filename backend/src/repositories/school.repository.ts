@@ -47,7 +47,11 @@ export class SchoolMongoRepository {
             budget_friendly: budgetFriendlyCount,
         };
         results.forEach((r) => {
-            if (counts[r._id] !== undefined) counts[r._id] = r.count;
+            // Only overwrite real, storable categories - "budget_friendly" is derived from fees,
+            // never a genuine stored category value, and must never be touched here.
+            if (r._id !== "budget_friendly" && counts[r._id] !== undefined) {
+                counts[r._id] = r.count;
+            }
         });
         return counts;
     }

@@ -13,7 +13,7 @@ export class ReviewController {
             if (!parsed.success) {
                 return ApiResponseHelper.error(res, z.prettifyError(parsed.error), 400);
             }
-            const studentId = (req.user as any)._id;
+            const studentId = String((req.user as any)._id);
             const review = await reviewService.createReview(studentId, parsed.data);
             return ApiResponseHelper.success(res, review, "Review posted successfully", 201);
         } catch (error: Error | any) {
@@ -32,7 +32,7 @@ export class ReviewController {
 
     async getMyReviews(req: Request, res: Response) {
         try {
-            const studentId = (req.user as any)._id;
+            const studentId = String((req.user as any)._id);
             const reviews = await reviewService.getMyReviews(studentId);
             return ApiResponseHelper.success(res, reviews, "Your reviews fetched successfully");
         } catch (error: Error | any) {
@@ -56,7 +56,7 @@ export class ReviewController {
             if (!parsed.success) {
                 return ApiResponseHelper.error(res, z.prettifyError(parsed.error), 400);
             }
-            const studentId = (req.user as any)._id;
+            const studentId = String((req.user as any)._id);
             const review = await reviewService.updateReview(req.params.id, studentId, parsed.data);
             return ApiResponseHelper.success(res, review, "Review updated successfully");
         } catch (error: Error | any) {
@@ -66,7 +66,7 @@ export class ReviewController {
 
     async deleteReview(req: Request, res: Response) {
         try {
-            const studentId = (req.user as any)._id;
+            const studentId = String((req.user as any)._id);
             await reviewService.deleteReview(req.params.id, studentId);
             return ApiResponseHelper.success(res, null, "Review deleted successfully");
         } catch (error: Error | any) {

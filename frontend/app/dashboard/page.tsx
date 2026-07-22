@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { getUserData } from "@/lib/cookies";
 import { handleGetCategoryCounts } from "@/lib/actions/school-action";
 import { handleGetTopRatedSchools } from "@/lib/actions/review-action";
@@ -25,9 +26,18 @@ export default async function DashboardOverviewPage() {
 
     return (
         <main className="mx-auto max-w-6xl px-6 py-8">
-            <div className="rounded-2xl bg-blue-700 p-8">
-                <div className="flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center">
-                    <div>
+            <div className="relative min-h-[280px] overflow-hidden rounded-2xl">
+                <Image
+                    src="/ai-banner-illustration.png"
+                    alt=""
+                    fill
+                    priority
+                    className="object-cover"
+                />
+                <div className="absolute inset-0 bg-gradient-to-r from-black/20 via-black/5 to-transparent" />
+
+                <div className="relative z-10 flex h-full min-h-[220px] flex-col items-start justify-center gap-4 p-8">
+                    <div className="max-w-md">
                         <div className="flex items-center gap-2">
                             <Sparkles className="h-4 w-4 text-blue-200" />
                             <span className="text-xs font-semibold uppercase tracking-wide text-blue-200">
@@ -37,17 +47,17 @@ export default async function DashboardOverviewPage() {
                                 Beta
                             </span>
                         </div>
-                        <h1 className="mt-2 text-xl font-bold text-white">
+                        <h1 className="mt-2 text-2xl font-bold leading-snug text-white drop-shadow-sm sm:text-3xl">
                             Answer a few questions, {firstName}, and let AI find schools that fit.
                         </h1>
+                        <Link
+                            href="/dashboard/recommendations"
+                            className="mt-4 inline-flex items-center gap-2 rounded-lg bg-white px-5 py-2.5 text-sm font-semibold text-blue-700 transition-colors hover:bg-blue-50"
+                        >
+                            <Brain className="h-4 w-4" />
+                            Get AI Recommendations
+                        </Link>
                     </div>
-                    <Link
-                        href="/dashboard/recommendations"
-                        className="flex shrink-0 items-center gap-2 rounded-lg bg-white px-5 py-2.5 text-sm font-semibold text-blue-700 transition-colors hover:bg-blue-50"
-                    >
-                        <Brain className="h-4 w-4" />
-                        Get AI Recommendations
-                    </Link>
                 </div>
             </div>
 
