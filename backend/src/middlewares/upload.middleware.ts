@@ -1,17 +1,12 @@
 import multer from "multer";
-import path from "path";
-import { v4 as uuidv4 } from "uuid";
 import { Request } from "express";
 
-const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, path.join(process.cwd(), "uploads"));
-    },
-    filename: (req, file, cb) => {
-        const ext = path.extname(file.originalname);
-        cb(null, `${uuidv4()}${ext}`);
-    },
-});
+// Store the file in memory (as a Buffer) instead of writing to disk.
+// Render's free-tier filesystem is ephemeral and gets wiped on every
+// restart/redeploy, so anything saved to local disk (like the old
+// diskStorage setup) disappears. Cloudinary is used as permanent storage
+// instead — see configs/cloudinary.ts.
+const storage = multer.memoryStorage();
 
 const fileFilter = (req: Request, file: Express.Multer.File, cb: multer.FileFilterCallback) => {
     if (file.mimetype.startsWith("image/")) {

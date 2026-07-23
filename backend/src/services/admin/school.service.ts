@@ -1,13 +1,14 @@
 import { SchoolMongoRepository } from "../../repositories/school.repository";
 import { CreateSchoolDTO, UpdateSchoolDTO } from "../../dtos/school.dto";
 import { HttpException } from "../../exceptions/http-exception";
+import { uploadBufferToCloudinary } from "../../configs/cloudinary";
 
 const schoolRepository = new SchoolMongoRepository();
 
 export class AdminSchoolService {
     async createSchool(data: CreateSchoolDTO, file?: Express.Multer.File) {
         const payload: Record<string, any> = { ...data };
-        if (file) payload.image = `/uploads/${file.filename}`;
+        if (file) payload.image = await uploadBufferToCloudinary(file.buffer, "schools");
         return schoolRepository.create(payload);
     }
 
@@ -16,7 +17,7 @@ export class AdminSchoolService {
         if (!school) throw new HttpException(404, "School not found");
 
         const payload: Record<string, any> = { ...data };
-        if (file) payload.image = `/uploads/${file.filename}`;
+        if (file) payload.image = await uploadBufferToCloudinary(file.buffer, "schools");
 
         return schoolRepository.updateById(id, payload);
     }
