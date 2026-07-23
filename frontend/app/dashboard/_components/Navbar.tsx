@@ -7,8 +7,7 @@ import { useAuth } from "@/lib/contexts/AuthContext";
 import Logo from "@/app/_components/Logo";
 import LogoutButton from "./LogoutButton";
 import NotificationBell from "./NotificationBell";
-
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:8089";
+import { getImageUrl } from "@/lib/image-url";
 
 const tabs = [
     { href: "/dashboard", label: "Overview" },
@@ -67,7 +66,7 @@ export default function Navbar() {
                             {user?.profileImage ? (
                                 // eslint-disable-next-line @next/next/no-img-element
                                 <img
-                                    src={`${API_BASE_URL}${user.profileImage}`}
+                                    src={getImageUrl(user.profileImage)}
                                     alt={user.fullName}
                                     className="h-full w-full object-cover"
                                 />

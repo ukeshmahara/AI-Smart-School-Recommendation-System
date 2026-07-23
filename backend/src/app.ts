@@ -21,7 +21,17 @@ import chatbotRoutes from "./routes/chatbot.route";
 
 const app: Application = express();
 
-app.use(cors({ origin: ["*"] }));
+const allowedOrigins = [
+    process.env.FRONTEND_URL || "http://localhost:3000",
+    "http://localhost:3000",
+];
+
+app.use(
+    cors({
+        origin: allowedOrigins,
+        credentials: true,
+    })
+);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(morgan("combined"));

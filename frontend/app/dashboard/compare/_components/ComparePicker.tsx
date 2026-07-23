@@ -5,8 +5,7 @@ import Link from "next/link";
 import { School as SchoolIcon } from "lucide-react";
 import { categoryLabel, streamLabel } from "../../schools/_components/constants";
 import SchoolSlot from "./SchoolSlot";
-
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:8089";
+import { getImageUrl } from "@/lib/image-url";
 
 interface SchoolSummary {
     _id: string;
@@ -96,7 +95,7 @@ export default function ComparePicker({ initialSchools }: { initialSchools: Scho
                                             {school.image ? (
                                                 // eslint-disable-next-line @next/next/no-img-element
                                                 <img
-                                                    src={`${API_BASE_URL}${school.image}`}
+                                                    src={getImageUrl(school.image)}
                                                     alt={school.name}
                                                     className="h-full w-full object-cover"
                                                 />

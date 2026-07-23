@@ -6,6 +6,7 @@ import jwt from "jsonwebtoken";
 import crypto from "crypto";
 import { SECRET_KEY, FRONTEND_URL } from "../configs/constant";
 import { sendPasswordResetEmail } from "../configs/email";
+import { uploadBufferToCloudinary } from "../configs/cloudinary";
 
 const userRepository = new UserMongoRepository();
 const RESET_TOKEN_EXPIRY_MS = 15 * 60 * 1000; // 15 minutes
@@ -71,7 +72,7 @@ export class UserService {
         }
 
         if (file) {
-            fieldsToUpdate.profileImage = `/uploads/${file.filename}`;
+            fieldsToUpdate.profileImage = await uploadBufferToCloudinary(file.buffer, "profile-images");
         }
 
         const updatedUser = await userRepository.updateUser(userId, fieldsToUpdate);

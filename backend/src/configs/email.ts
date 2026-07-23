@@ -1,13 +1,23 @@
 import nodemailer from "nodemailer";
+import SMTPTransport from "nodemailer/lib/smtp-transport";
 import { GMAIL_USER, GMAIL_APP_PASSWORD } from "./constant";
 
 export const emailTransporter = nodemailer.createTransport({
-    service: "gmail",
+    host: "smtp.gmail.com",
+    port: 465,
+    secure: true,
     auth: {
         user: GMAIL_USER,
         pass: GMAIL_APP_PASSWORD,
     },
-});
+    // Force IPv4. Some hosts (Render included) have unreliable/broken IPv6
+    // routing to Google's mail servers, which causes connect ENETUNREACH
+    // errors or multi-minute hangs before falling back to IPv4. Forcing
+    // IPv4 here skips that broken attempt entirely. (nodemailer/Node's
+    // underlying socket layer supports this option even though the
+    // published TypeScript types don't declare it, hence the assertion.)
+    family: 4,
+} as SMTPTransport.Options);
 
 export async function sendPasswordResetEmail(to: string, resetLink: string) {
     await emailTransporter.sendMail({

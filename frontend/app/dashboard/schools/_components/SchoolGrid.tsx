@@ -3,8 +3,7 @@ import { School as SchoolIcon, MapPin } from "lucide-react";
 import { categoryLabel, streamLabel } from "./constants";
 import FavoriteButton from "./FavoriteButton";
 import CompareCheckbox from "./CompareCheckbox";
-
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:8089";
+import { getImageUrl } from "@/lib/image-url";
 
 interface School {
     _id: string;
@@ -48,7 +47,7 @@ export default function SchoolGrid({ schools, favoritedIds = new Set() }: Props)
                             {school.image ? (
                                 // eslint-disable-next-line @next/next/no-img-element
                                 <img
-                                    src={`${API_BASE_URL}${school.image}`}
+                                    src={getImageUrl(school.image)}
                                     alt={school.name}
                                     className="h-full w-full object-cover"
                                 />

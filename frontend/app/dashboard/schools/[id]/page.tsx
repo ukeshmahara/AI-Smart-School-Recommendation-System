@@ -7,8 +7,7 @@ import { categoryLabel, streamLabel } from "../_components/constants";
 import FavoriteButton from "../_components/FavoriteButton";
 import ContactSchoolButton from "./_components/ContactSchoolButton";
 import ReviewsSection from "./_components/ReviewsSection";
-
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:8089";
+import { getImageUrl } from "@/lib/image-url";
 
 interface PageProps {
     params: Promise<{ id: string }>;
@@ -54,7 +53,7 @@ export default async function SchoolDetailPage({ params }: PageProps) {
                 {school.image ? (
                     // eslint-disable-next-line @next/next/no-img-element
                     <img
-                        src={`${API_BASE_URL}${school.image}`}
+                        src={getImageUrl(school.image)}
                         alt={school.name}
                         className="h-full w-full object-cover"
                     />
