@@ -3,8 +3,7 @@
 import { useState, useRef, useEffect, useTransition } from "react";
 import { Plus, X, School as SchoolIcon, Search } from "lucide-react";
 import { handleGetSchools } from "@/lib/actions/school-action";
-
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:8089";
+import { getImageUrl } from "@/lib/image-url";
 
 interface SchoolSummary {
     _id: string;
@@ -76,7 +75,7 @@ export default function SchoolSlot({ school, excludeIds, optional, onSelect, onR
                 <div className="h-10 w-10 shrink-0 overflow-hidden rounded-lg bg-gray-100">
                     {school.image ? (
                         // eslint-disable-next-line @next/next/no-img-element
-                        <img src={`${API_BASE_URL}${school.image}`} alt={school.name} className="h-full w-full object-cover" />
+                        <img src={getImageUrl(school.image)} alt={school.name} className="h-full w-full object-cover" />
                     ) : (
                         <div className="flex h-full w-full items-center justify-center text-gray-300">
                             <SchoolIcon className="h-4 w-4" />

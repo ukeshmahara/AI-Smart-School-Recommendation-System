@@ -3,8 +3,7 @@
 import { Pencil, Trash2, School as SchoolIcon } from "lucide-react";
 import { AdminSchool } from "./SchoolManagementPanel";
 import { CATEGORY_FILTER_OPTIONS, STREAM_OPTIONS } from "./schema";
-
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:8089";
+import { getImageUrl } from "@/lib/image-url";
 
 function categoryLabel(value: string) {
     return CATEGORY_FILTER_OPTIONS.find((c) => c.value === value)?.label || value;
@@ -52,7 +51,7 @@ export default function SchoolTable({ schools, onEdit, onDelete }: Props) {
                                         {school.image ? (
                                             // eslint-disable-next-line @next/next/no-img-element
                                             <img
-                                                src={`${API_BASE_URL}${school.image}`}
+                                                src={getImageUrl(school.image)}
                                                 alt={school.name}
                                                 className="h-full w-full object-cover"
                                             />

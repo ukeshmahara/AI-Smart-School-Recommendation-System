@@ -3,8 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { Sparkles, MapPin, School as SchoolIcon, ArrowLeft } from "lucide-react";
-
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:8089";
+import { getImageUrl } from "@/lib/image-url";
 
 interface RecommendationItem {
     schoolId: string;
@@ -58,7 +57,7 @@ export default function ResultsClient() {
                         {item.school?.image ? (
                             // eslint-disable-next-line @next/next/no-img-element
                             <img
-                                src={`${API_BASE_URL}${item.school.image}`}
+                                src={getImageUrl(item.school.image)}
                                 alt={item.school.name}
                                 className="h-full w-full object-cover"
                             />

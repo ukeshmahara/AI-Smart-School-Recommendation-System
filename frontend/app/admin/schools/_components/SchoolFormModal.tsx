@@ -8,8 +8,7 @@ import { X, School as SchoolIcon, Camera } from "lucide-react";
 import { schoolSchema, SchoolFormData, CATEGORY_OPTIONS, STREAM_OPTIONS } from "./schema";
 import { handleCreateSchool, handleUpdateSchool } from "@/lib/actions/admin/school-action";
 import { AdminSchool } from "./SchoolManagementPanel";
-
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:8089";
+import { getImageUrl } from "@/lib/image-url";
 
 interface Props {
     school: AdminSchool | null;
@@ -22,7 +21,7 @@ export default function SchoolFormModal({ school, onClose, onSuccess }: Props) {
     const [isPending, startTransition] = useTransition();
     const [imageFile, setImageFile] = useState<File | null>(null);
     const [previewUrl, setPreviewUrl] = useState<string | null>(
-        school?.image ? `${API_BASE_URL}${school.image}` : null
+        getImageUrl(school?.image) ?? null
     );
 
     const {

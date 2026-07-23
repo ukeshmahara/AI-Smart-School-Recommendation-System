@@ -12,8 +12,7 @@ import {
     ChevronDown,
 } from "lucide-react";
 import { useAuth } from "@/lib/contexts/AuthContext";
-
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:8089";
+import { getImageUrl } from "@/lib/image-url";
 
 interface Props {
     showPolicyLinks?: boolean;
@@ -44,7 +43,7 @@ export default function ProfileDropdown({ showPolicyLinks = true }: Props) {
                     {user?.profileImage ? (
                         // eslint-disable-next-line @next/next/no-img-element
                         <img
-                            src={`${API_BASE_URL}${user.profileImage}`}
+                            src={getImageUrl(user.profileImage)}
                             alt={user.fullName}
                             className="h-full w-full object-cover"
                         />
@@ -64,7 +63,7 @@ export default function ProfileDropdown({ showPolicyLinks = true }: Props) {
                             {user?.profileImage ? (
                                 // eslint-disable-next-line @next/next/no-img-element
                                 <img
-                                    src={`${API_BASE_URL}${user.profileImage}`}
+                                    src={getImageUrl(user.profileImage)}
                                     alt={user.fullName}
                                     className="h-full w-full object-cover"
                                 />

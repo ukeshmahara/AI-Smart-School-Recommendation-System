@@ -1,8 +1,7 @@
 import Link from "next/link";
 import { MessageSquare, MapPin, CornerDownRight } from "lucide-react";
 import { handleGetMyInquiries } from "@/lib/actions/inquiry-action";
-
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:8089";
+import { getImageUrl } from "@/lib/image-url";
 
 const STATUS_META: Record<string, { label: string; bg: string; color: string }> = {
     pending: { label: "Pending", bg: "bg-amber-50", color: "text-amber-700" },
@@ -39,7 +38,7 @@ export default async function MyInquiriesPage() {
                                             {school?.image ? (
                                                 // eslint-disable-next-line @next/next/no-img-element
                                                 <img
-                                                    src={`${API_BASE_URL}${school.image}`}
+                                                    src={getImageUrl(school.image)}
                                                     alt={school.name}
                                                     className="h-full w-full object-cover"
                                                 />

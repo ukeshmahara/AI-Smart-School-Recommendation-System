@@ -8,8 +8,7 @@ import { User, Phone, Camera } from "lucide-react";
 import { profileSchema, ProfileFormData } from "../../_components/schema";
 import { handleUpdateUser } from "@/lib/actions/auth-action";
 import { useAuth } from "@/lib/contexts/AuthContext";
-
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:8089";
+import { getImageUrl } from "@/lib/image-url";
 
 interface ProfileFormProps {
     user: {
@@ -24,7 +23,7 @@ export default function ProfileForm({ user }: ProfileFormProps) {
     const [isPending, startTransition] = useTransition();
     const [imageFile, setImageFile] = useState<File | null>(null);
     const [previewUrl, setPreviewUrl] = useState<string | null>(
-        user.profileImage ? `${API_BASE_URL}${user.profileImage}` : null
+        getImageUrl(user.profileImage) ?? null
     );
     const { checkAuth } = useAuth();
 
